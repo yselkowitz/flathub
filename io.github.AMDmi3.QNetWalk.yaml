@@ -1,0 +1,22 @@
+id: io.github.AMDmi3.QNetWalk
+runtime: org.kde.Platform
+runtime-version: 5.15-21.08
+sdk: org.kde.Sdk
+command: qnetwalk
+rename-appdata-file: qnetwalk.metainfo.xml
+rename-desktop-file: qnetwalk.desktop
+rename-icon: qnetwalk
+finish-args:
+  - --share=ipc
+  - --socket=x11
+  - --socket=wayland
+  - --socket=pulseaudio
+  - --device=dri
+modules:
+  - name: qnetwalk
+    buildsystem: cmake-ninja
+    sources:
+      - type: git
+        url: https://github.com/AMDmi3/qnetwalk.git
+        tag: '1.7.0'
+        commit: f800f9855f1c015434b70d99b9129927d6ea1c28
