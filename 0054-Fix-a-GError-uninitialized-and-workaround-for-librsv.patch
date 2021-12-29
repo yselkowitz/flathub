@@ -1,0 +1,63 @@
+From 5b9ba113b88685d3efa86487c709d0b52886a89c Mon Sep 17 00:00:00 2001
+From: Daniele Napolitano <dnax88@gmail.com>
+Date: Fri, 16 Feb 2018 00:10:09 +0100
+Subject: [PATCH 54/75] Fix a GError uninitialized and workaround for librsvg
+ bug (closes bug #1741664)
+
+---
+ src/sge_utils.c | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
+
+diff --git a/src/sge_utils.c b/src/sge_utils.c
+index 98ff4b2..3798043 100644
+--- a/src/sge_utils.c
++++ b/src/sge_utils.c
+@@ -18,6 +18,7 @@
+  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+  */
+ 
++#include <gio/gio.h>
+ #include <gtk/gtk.h>
+ #include <librsvg/rsvg.h>
+ 
+@@ -30,7 +31,8 @@ sge_load_svg_to_pixbuf (char *filename, int width,
+ {
+ 	gchar *full_pathname;
+ 	GdkPixbuf *pixbuf = NULL;
+-	GError *error;
++	GError *error = NULL;
++	GFile *file;
+ 
+ 	full_pathname = g_strconcat(DATADIR "/pixmaps/",
+ 	                            filename,
+@@ -38,13 +40,25 @@ sge_load_svg_to_pixbuf (char *filename, int width,
+ 	if (g_file_test(full_pathname, G_FILE_TEST_IS_REGULAR)) {
+ 		pixbuf = rsvg_pixbuf_from_file_at_size (full_pathname, width,
+ 						   height, &error);
+-		g_free (full_pathname);
++		if (pixbuf == NULL) {
++			// Some versions of librsvg need URI instead of path.
++			// https://gitlab.gnome.org/GNOME/librsvg/issues/198
++			g_clear_error (&error);
++			file = g_file_new_for_path (full_pathname);
++			g_free (full_pathname);
++			full_pathname = g_file_get_uri (file);
++			g_object_unref (file);
++			pixbuf = rsvg_pixbuf_from_file_at_size (full_pathname, width,
++							   height, &error);
++		}
+ 		if (pixbuf == NULL)
+-			g_free (error);
++			g_error_free (error);
+ 
+ 	} else
+ 		g_warning ("%s not found", filename);
+ 
++	g_free (full_pathname);
++
+ 	return pixbuf;
+ }
+ 
+-- 
+2.33.1
+
