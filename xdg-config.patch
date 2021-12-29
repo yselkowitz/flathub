@@ -1,0 +1,16 @@
+diff --git a/source/option.py b/source/option.py
+index 9886fdb..05d813a 100644
+--- a/source/option.py
++++ b/source/option.py
+@@ -26,8 +26,10 @@ class Option:
+                 if userPath:
+                     userPath = os.path.join(userPath, 'bellz', baseFileName)
+             else:
+-                fileName = '.{0}'.format(baseFileName)
++                fileName = '{0}rc'.format(baseFileName)
+                 userPath = os.environ.get('HOME', '')
++                if userPath:
++                    userPath = os.path.join(userPath, '.config', baseFileName)
+             self.path = os.path.join(userPath, fileName)
+             if not os.path.exists(self.path):
+                 modPath = os.path.abspath(sys.path[0])

@@ -1,0 +1,165 @@
+{
+    "name": "pyqt5",
+    "buildsystem": "simple",
+    "build-commands": [
+        "QMAKEPATH=/app/lib sip-build --no-make --qt-shared --confirm-license --dbus=$FLATPAK_DEST/include/dbus-1.0 --no-designer-plugin",
+        "make -j $FLATPAK_BUILDER_N_JOBS -C build",
+        "make install INSTALL_ROOT=`pwd`/DESTDIR -C build",
+        "cp -ru `pwd`/DESTDIR/usr/* $FLATPAK_DEST/"
+    ],
+    "sources": [
+        {
+            "type": "archive",
+            "url": "https://files.pythonhosted.org/packages/3b/27/fd81188a35f37be9b3b4c2db1654d9439d1418823916fe702ac3658c9c41/PyQt5-5.15.6.tar.gz",
+            "sha256": "80343bcab95ffba619f2ed2467fd828ffeb0a251ad7225be5fc06dcc333af452",
+            "x-checker-data": {
+                "type": "pypi",
+                "name": "PyQt5"
+            }
+        }
+    ],
+    "cleanup": [
+        "/bin",
+        "/lib/python*/site-packages/PyQt5/bindings",
+        "/lib/python*/site-packages/PyQt5/pylupdate*",
+        "/lib/python*/site-packages/PyQt5/pyrcc*",
+        "/lib/python*/site-packages/PyQt5/uic"
+    ],
+    "modules": [
+        {
+            "name": "toml",
+            "buildsystem": "simple",
+            "build-commands": [
+                "python3 setup.py install --prefix=$FLATPAK_DEST --root=/"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://files.pythonhosted.org/packages/be/ba/1f744cdc819428fc6b5084ec34d9b30660f6f9daaf70eead706e3203ec3c/toml-0.10.2.tar.gz",
+                    "sha256": "b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f",
+                    "x-checker-data": {
+                        "type": "pypi",
+                        "name": "toml"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "pyparsing",
+            "buildsystem": "simple",
+            "build-commands": [
+                "python3 setup.py install --prefix=$FLATPAK_DEST --root=/"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://files.pythonhosted.org/packages/c1/47/dfc9c342c9842bbe0036c7f763d2d6686bcf5eb1808ba3e170afdb282210/pyparsing-2.4.7.tar.gz",
+                    "sha256": "c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1",
+                    "x-checker-data": {
+                        "type": "pypi",
+                        "name": "pyparsing"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "packaging",
+            "buildsystem": "simple",
+            "build-commands": [
+                "python3 setup.py install --prefix=$FLATPAK_DEST --root=/"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://files.pythonhosted.org/packages/df/9e/d1a7217f69310c1db8fdf8ab396229f55a699ce34a203691794c5d1cad0c/packaging-21.3.tar.gz",
+                    "sha256": "dd47c42927d89ab911e606518907cc2d3a1f38bbd026385970643f9c5b8ecfeb",
+                    "x-checker-data": {
+                        "type": "pypi",
+                        "name": "packaging"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "sip",
+            "buildsystem": "simple",
+            "build-commands": [
+                "python3 setup.py install --prefix=$FLATPAK_DEST --root=/"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://files.pythonhosted.org/packages/c4/de/76c2927ea8f74dc4909c9affeba4c0191c43a4aefbe2118cc69b2cbd8461/sip-6.4.0.tar.gz",
+                    "sha256": "42ec368520b8da4a0987218510b1b520b4981e4405086c1be384733affc2bcb0",
+                    "x-checker-data": {
+                        "type": "pypi",
+                        "name": "sip"
+                    }
+                }
+            ],
+            "cleanup": [
+                "*"
+            ]
+        },
+        {
+            "name": "PyQt_builder",
+            "buildsystem": "simple",
+            "build-commands": [
+                "python3 setup.py install --prefix=$FLATPAK_DEST --root=/"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://files.pythonhosted.org/packages/8b/5f/1bd49787262ddce37b826ef49dcccf5a9970facf0ed363dee5ee233e681d/PyQt-builder-1.12.2.tar.gz",
+                    "sha256": "f62bb688d70e0afd88c413a8d994bda824e6cebd12b612902d1945c5a67edcd7",
+                    "x-checker-data": {
+                        "type": "pypi",
+                        "name": "PyQt-builder"
+                    }
+                }
+            ],
+            "cleanup": [
+                "*"
+            ]
+        },
+        {
+            "name": "PyQt5_sip",
+            "buildsystem": "simple",
+            "build-commands": [
+                "python3 setup.py install --prefix=$FLATPAK_DEST --root=/"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://files.pythonhosted.org/packages/b1/40/dd8f081f04a12912b65417979bf2097def0af0f20c89083ada3670562ac5/PyQt5_sip-12.9.0.tar.gz",
+                    "sha256": "d3e4489d7c2b0ece9d203ae66e573939f7f60d4d29e089c9f11daa17cfeaae32",
+                    "x-checker-data": {
+                        "type": "pypi",
+                        "name": "PyQt5_sip"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "dbus-python",
+            "buildsystem": "autotools",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://files.pythonhosted.org/packages/b1/5c/ccfc167485806c1936f7d3ba97db6c448d0089c5746ba105b6eb22dba60e/dbus-python-1.2.18.tar.gz",
+                    "sha256": "92bdd1e68b45596c833307a5ff4b217ee6929a1502f5341bae28fd120acf7260",
+                    "x-checker-data": {
+                        "type": "pypi",
+                        "name": "dbus-python"
+                    }
+                }
+            ],
+            "cleanup": [
+                "/include/dbus-1.0",
+                "*.la",
+                "/lib/pkgconfig",
+                "/share/doc"
+            ]
+        }
+    ]
+}

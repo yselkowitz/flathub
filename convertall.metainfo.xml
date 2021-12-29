@@ -1,0 +1,25 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>com.bellz.ConvertAll</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0+</project_license>
+  <name>ConvertAll</name>
+  <developer_name>Doug Bell</developer_name>
+  <summary>A flexible unit converter</summary>
+  <url type="homepage">https://convertall.bellz.org/</url>
+  <url type="bugtracker">https://github.com/doug-101/ConvertAll/issues</url>
+  <description>
+    <p>With ConvertAll, you can combine the units any way you want. If you want to convert from inches 
+       per decade, that's fine. Or from meter-pounds. Or from cubic nautical miles. The units don't have
+       to make sense to anyone else.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://convertall.bellz.org/convertall.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">convertall.desktop</launchable>
+  <releases>
+    <release version="0.8.0" date="2020-03-22"/>
+  </releases>
+</component>

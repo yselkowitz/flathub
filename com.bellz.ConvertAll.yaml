@@ -1,0 +1,36 @@
+id: com.bellz.ConvertAll
+runtime: org.kde.Platform
+runtime-version: 5.15-21.08
+sdk: org.kde.Sdk
+command: convertall
+rename-appdata-file: convertall.metainfo.xml
+rename-desktop-file: convertall.desktop
+rename-icon: convertall-icon
+finish-args:
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  - --filesystem=xdg-config/convertall:create
+modules:
+  - name: convertall
+    buildsystem: simple
+    sources:
+      - type: archive
+        url: https://github.com/doug-101/ConvertAll/releases/download/v0.8.0/convertall-0.8.0.tar.gz
+        sha256: 624c8a792b0bc7ff3776499c2c743b32273569efd0567615e570a7e739e8d521
+      - type: file
+        path: convertall.metainfo.xml
+      - type: patch
+        path: xdg-config.patch
+    build-commands:
+      - ./install.py -p $FLATPAK_DEST -d $FLATPAK_DEST/share/doc/convertall -i $FLATPAK_DEST/share/convertall/icons
+      - install -D -m0644 icons/convertall_sm.png $FLATPAK_DEST/share/icons/hicolor/16x16/apps/convertall-icon.png
+      - install -D -m0644 icons/convertall_med.png $FLATPAK_DEST/share/icons/hicolor/32x32/apps/convertall-icon.png
+      - install -D -m0644 icons/convertall_lg.png $FLATPAK_DEST/share/icons/hicolor/64x64/apps/convertall-icon.png
+      - install -D -m0644 convertall.metainfo.xml $FLATPAK_DEST/share/metainfo/convertall.metainfo.xml
+    cleanup:
+      - /share/convertall/*.pro
+      - /share/convertall/*.spec
+    modules:
+      - pyqt5.json
