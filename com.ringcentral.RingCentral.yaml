@@ -1,0 +1,51 @@
+---
+app-id: com.ringcentral.RingCentral
+runtime: org.freedesktop.Platform
+runtime-version: '21.08'
+sdk: org.freedesktop.Sdk
+base: org.electronjs.Electron2.BaseApp
+base-version: '21.08'
+command: ringcentral-embeddable-voice
+rename-appdata-file: ringcentral-embeddable-voice.metainfo.xml
+rename-desktop-file: ringcentral-embeddable-voice.desktop
+rename-icon: ringcentral-embeddable-voice
+separate-locales: false
+finish-args:
+  - --share=ipc
+  - --share=network
+  - --socket=x11
+  - --socket=pulseaudio
+  - --device=dri
+  - --filesystem=xdg-run/pipewire-0
+  - --talk-name=org.kde.StatusNotifierWatcher
+modules:
+  - name: ringcentral-embeddable-electron-app
+    buildsystem: simple
+    sources:
+      - type: file
+        url: https://github.com/ringcentral/ringcentral-embeddable-electron-app/releases/download/v0.2.0/ringcentral-embeddable-voice-app_0.2.0_amd64.deb
+        sha256: a7bf33b39f9b262044f149c426bd393c5d33b8076615eeec940a3f205f825ea9
+        x-checker-data:
+          type: json
+          url: https://api.github.com/repos/ringcentral/ringcentral-embeddable-electron-app/releases/latest
+          version-query: .tag_name
+          url-query: .assets[] | select(.name=="ringcentral-embeddable-voice-app_"+ $version +"_amd64.deb") | .browser_download_url
+      - type: file
+        path: ringcentral-embeddable-voice.metainfo.xml
+      - type: script
+        dest-filename: ringcentral-embeddable-voice.sh
+        commands:
+          - export TMPDIR="$XDG_RUNTIME_DIR/app/${FLATPAK_ID}"
+          - exec zypak-wrapper /app/RingCentral_Embeddable/ringcentral-embeddable-voice "$@"
+    build-commands:
+      - ar x ringcentral-embeddable-voice-app_*.deb
+      - tar xf data.tar.xz
+      - rm -f ringcentral-embeddable-voice-app_*.deb control.tar.xz data.tar.xz debian-binary
+      - install -d $FLATPAK_DEST/share
+      - mv usr/share/* $FLATPAK_DEST/share/
+      - mv "opt/RingCentral Embeddable" $FLATPAK_DEST/RingCentral_Embeddable
+      - chmod -R a-s,go+rX,go-w $FLATPAK_DEST/RingCentral_Embeddable
+      - install -D -m0755 ringcentral-embeddable-voice.sh $FLATPAK_DEST/bin/ringcentral-embeddable-voice
+      - desktop-file-edit --add-category=Network --set-key=Exec --set-value="ringcentral-embeddable-voice %U" $FLATPAK_DEST/share/applications/ringcentral-embeddable-voice.desktop
+      - install -D -m0644 ringcentral-embeddable-voice.metainfo.xml $FLATPAK_DEST/share/metainfo/ringcentral-embeddable-voice.metainfo.xml
+...
