@@ -1,0 +1,15 @@
+--- a/configure	2021-12-23 20:48:54.503562384 -0500
++++ b/configure	2021-12-23 20:54:43.397562437 -0500
+@@ -217,9 +217,10 @@
+ 		}
+ 		$str .= " $package";
+ 
+-		bail "not found!", $str;
++		output "not found!", $str;
++	} else {
++		print "found\n";
+ 	}
+-	print "found\n";
+ 
+ 	push (@$jararrayref, $found);
+ }

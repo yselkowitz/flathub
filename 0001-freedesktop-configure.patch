@@ -1,0 +1,84 @@
+diff --git a/configure b/configure
+index 42c0041..62715cf 100755
+--- a/configure
++++ b/configure
+@@ -462,6 +462,11 @@ if (( -f "/etc/gentoo-release" ) || ( -f "/etc/make.conf" )) {
+ } elsif ( -f "/etc/mandriva-release" ) {
+ 	output "Mandriva";
+ 	$os = "mandriva";
++} elsif ( -f "/etc/os-release" ) {
++	if (`grep Flatpak /etc/os-release`) {
++		output "Flatpak";
++		$os = "flatpak";
++	}
+ } elsif ( -f "/etc/release" ) {
+ 	if (`grep Solaris /etc/release`) {
+ 		output "Solaris";
+@@ -576,6 +581,15 @@ if ($os eq "gentoo") {
+ 			"~/share/java/gtk-4.1.jar");
+ 	}
+ 
++} elsif ($os eq "flatpak") {
++
++	check_prereq(@java_gnome_jars,
++		"java-gnome UI library",
++		"java-gnome",
++		"$java_gnome_home/share/java/gtk-4.1.jar",
++		"$java_gnome_home/tmp/gtk-4.1.jar",
++		"/app/share/java/gtk-4.1.jar");
++
+ } elsif ($os eq "solaris") {
+ 
+ 	check_prereq(@java_gnome_jars,
+@@ -852,6 +866,32 @@ if ($os eq "gentoo") {
+ 	check_javadoc($javadoc, "$vendor javadoc", $javadoc_candidate, "");
+ 
+ 
++} elsif ($os eq "flatpak") {
++	my $javac_candidate;
++	my $javah_candidate;
++	my $jar_candidate;
++	my $javadoc_candidate;
++	my $vendor;
++	if ($jdk_home) {
++		$vendor = "Specified";
++	} else {
++		if ( $ENV{'JAVA_HOME'} ) {
++			$jdk_home = $ENV{'JAVA_HOME'};
++			$vendor = "Sun";
++		} else {
++			$jdk_home = "/usr/lib/sdk/openjdk11/jvm/openjdk-11";
++		}
++	}
++	$javac_candidate = "$jdk_home/bin/javac";
++	$javah_candidate = "$jdk_home/bin/javac";
++	$jar_candidate = "$jdk_home/bin/jar";
++	$javadoc_candidate = "$jdk_home/bin/javadoc";
++	check_compiler($javac, "$vendor javac", $javac_candidate, "-g");
++
++	check_jar($jar, "$vendor jar", $jar_candidate, "");
++	check_javadoc($javadoc, "$vendor javadoc", $javadoc_candidate, "");
++
++
+ } elsif ($os eq "solaris") {
+ 	check_compiler($ecj, "Eclipse ecj", which("ecj"), "-g -preserveAllLocals -nowarn -source 1.5 -target 1.5");
+ 
+@@ -1124,6 +1164,18 @@ if ($os eq "gentoo") {
+ 	}
+ 	check_runtime($jamvm, "JamVM VM", $jamvm_candidate, "");
+ 
++} elsif ($os eq "flatpak") {
++	my $java_candidate;
++	my $vendor;
++	if ($jdk_home) {
++		$java_candidate = "$jdk_home/bin/java";
++		$vendor = "Specified";
++	} else {
++		$java_candidate = "/app/jre/bin/java";
++		$vendor = "Default";
++	}
++	check_runtime($java, "$vendor java VM", $java_candidate, "-client -ea");
++
+ } elsif ($os eq "solaris") {
+ 	# check for a JDK/JRE java Virtual Machine, allowing an alternate to be set
+ 	# (no reason to disable that)

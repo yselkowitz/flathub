@@ -1,0 +1,15 @@
+diff --git a/Makefile b/Makefile
+index 4684acf..734559a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -149,8 +149,8 @@ tmp/stamp/install-pixmaps: \
+ tmp/stamp/install-translations: \
+ 		$(DESTDIR)$(PREFIX)/share/locale \
+ 		share/locale/*/LC_MESSAGES/slashtime.mo
+-	@/bin/echo -e "INSTALL\t$(DESTDIR)$(PREFIX)/share/locale/*/LC_MESSAGES/slashtime.mo"
+-	cp -af share/locale/* $(DESTDIR)$(PREFIX)/share/locale
++	/bin/echo -e "INSTALL\t$(DESTDIR)$(PREFIX)/share/locale/*/LC_MESSAGES/slashtime.mo"
++	for f in share/locale/*/LC_MESSAGES/slashtime.mo ; do mkdir -p $(DESTDIR)$(PREFIX)/$${f%/*} ; cp -f $$f $(DESTDIR)$(PREFIX)/$$f ; done
+ 	touch $@
+ 
+ $(DESTDIR)$(JARDIR)/slashtime-$(APIVERSION).jar: \

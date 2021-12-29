@@ -1,0 +1,49 @@
+---
+id: com.operationaldynamics.Slashtime
+runtime: org.freedesktop.Platform
+runtime-version: '21.08'
+sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.openjdk11
+command: slashtime
+rename-appdata-file: slashtime.metainfo.xml
+rename-desktop-file: slashtime.desktop
+rename-icon: slashtime
+copy-icon: true
+finish-args:
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  - --filesystem=xdg-config/slashtime:create
+modules:
+  - name: openjdk11
+    buildsystem: simple
+    build-commands:
+      - /usr/lib/sdk/openjdk11/install.sh
+  - java-gnome/java-gnome.yaml
+  - name: slashtime
+    buildsystem: simple
+    sources:
+      - type: git
+        url: https://github.com/istathar/slashtime.git
+        commit: 7326857683542102d383f969c002286845b1429f
+      - type: patch
+        path: 0001-freedesktop-configure.patch
+      - type: patch
+        path: 0002-xdg-config-tzlist.patch
+      - type: patch
+        path: 0003-about-github.patch
+      - type: patch
+        path: 0004-install-separate-locales.patch
+      - type: file
+        path: slashtime.metainfo.xml
+    build-commands:
+      - ./configure jdk=/usr/lib/sdk/openjdk11/jvm/openjdk-11 java-gnome=$FLATPAK_DEST prefix=$FLATPAK_DEST
+      - make
+      - make install
+      - install -D -m0644 slashtime.metainfo.xml $FLATPAK_DEST/share/metainfo/slashtime.metainfo.xml
+    post-install:
+      - sed -i -e 's|/usr/lib/sdk/openjdk11/jvm/openjdk-11|/app/jre|' $FLATPAK_DEST/bin/slashtime
+      - desktop-file-edit --remove-key=Path $FLATPAK_DEST/share/applications/slashtime.desktop
+...

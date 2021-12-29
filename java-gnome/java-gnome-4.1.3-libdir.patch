@@ -1,0 +1,53 @@
+Workaround for brp-java-repack-jars skipping top-level dot-files
+
+--- java-gnome-4.1.3-orig/configure	2013-05-04 20:08:23.000000000 -0500
++++ java-gnome-4.1.3/configure	2014-05-25 22:41:33.344932567 -0500
+@@ -2293,7 +2293,7 @@
+ 
+ output " - native library location";
+ 
+-open LIBRARY, ">.libdir";
++open LIBRARY, ">libdir.properties";
+ 
+ print LIBRARY <<HERE ;
+ $libdir
+--- java-gnome-4.1.3-orig/Makefile	2013-05-04 20:08:23.000000000 -0500
++++ java-gnome-4.1.3/Makefile	2014-05-25 22:41:22.232100829 -0500
+@@ -60,7 +60,7 @@
+ 	@/bin/echo -e "INSTALL\t$@"
+ 	cp -f $< $@
+ 	@/bin/echo -e "JAR\t$@"
+-	jar uf $@ .libdir
++	jar uf $@ libdir.properties
+ 	@/bin/echo -e "SYMLINK\t$(@D)/gtk.jar -> gtk-$(APIVERSION).jar"
+ 	cd $(@D) && rm -f gtk.jar && ln -s gtk-$(APIVERSION).jar gtk.jar
+ 	
+@@ -114,7 +114,7 @@
+ 
+ distclean: clean
+ 	@/bin/echo -e "RM\tbuild configuration information"
+-	-rm -f .config .config.tmp .libdir
++	-rm -f .config .config.tmp libdir.properties
+ 	@/bin/echo -e "RM\tgenerated documentation"
+ 	-rm -rf doc/api/*
+ 	-rm -f java-gnome-*.tar.bz2
+--- java-gnome-4.1.3-orig/src/bindings/org/freedesktop/bindings/Plumbing.java	2013-05-04 20:08:23.000000000 -0500
++++ java-gnome-4.1.3/src/bindings/org/freedesktop/bindings/Plumbing.java	2014-05-25 22:42:03.203480823 -0500
+@@ -128,7 +128,7 @@
+         }
+     }
+ 
+-    private static final String LIBDIR_FILE = ".libdir";
++    private static final String LIBDIR_FILE = "libdir.properties";
+ 
+     /**
+      * Load the native library. The governing assumption is that the .jar
+@@ -171,7 +171,7 @@
+ 
+         try {
+             /*
+-             * Attmept to load the .libdir file and use its contents as the
++             * Attmept to load the libdir.properties file and use its contents as the
+              * directory which we will load our shared library from.
+              */
+             in = loader.getResourceAsStream(LIBDIR_FILE);

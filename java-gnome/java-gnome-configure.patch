@@ -1,0 +1,117 @@
+diff --git a/configure b/configure
+index 81b1ddf1..5b493629 100755
+--- a/configure
++++ b/configure
+@@ -663,6 +663,11 @@ if (( -f "/etc/gentoo-release" ) || ( -f "/etc/make.conf" )) {
+ } elsif ( -f "/etc/java/jpackage-release" ) {
+ 	output "JPackage";
+ 	$os = "fedora";
++} elsif ( -f "/etc/os-release" ) {
++	if (`grep Flatpak /etc/os-release`) {
++		output "Flatpak";
++		$os = "flatpak";
++	}
+ }
+ 
+ if ($os) {
+@@ -766,7 +771,13 @@ if ($os eq "gentoo") {
+ 		"junit",
+ 		"/usr/share/java/junit.jar");
+ 	
+-	
++} elsif ($os eq "flatpak") {
++
++	check_prereq(@junit_jars,
++		"JUnit test framework",
++		"junit",
++		"/app/share/java/junit.jar");
++		
+ } else {
+ 	bail "failed!", "This OS not configured with defaults!\nTHIS IS AN INTERNAL ERROR, PLEASE FILE A BUG.";
+ }
+@@ -1071,6 +1082,34 @@ if ($os eq "gentoo") {
+ #			"GtkSpell",
+ #			"FIXME");
+ 
++} elsif ($os eq "flatpak") {
++	check_system_library(@gnomedev_libs,
++			"cairo-svg >= 1.10
++			 		glib-2.0 >= 2.28
++			 		atk
++			 		gtk+-3.0 >= 3.0
++					gdk-3.0 
++					gtk+-unix-print-3.0
++					pango >= 1.28
++					librsvg-2.0",
++			"RSVG",
++			"FIXME");
++
++	check_system_library(@gnomedev_libs,
++			"gtksourceview-3.0",
++			"GtkSourceView",
++			"FIXME");
++
++	check_system_library(@gnomedev_libs,
++			"enchant",
++			"Enchant",
++			"FIXME");
++
++	check_system_library(@gnomedev_libs,
++			"libnotify >= 0.7.0",
++			"libnotify",
++			"FIXME");
++
+ }
+ 
+ 
+@@ -1507,6 +1546,31 @@ if ($os eq "gentoo") {
+ 	check_jar($jar, "$vendor jar", $jar_candidate, "");
+ 	check_javadoc($javadoc, "$vendor javadoc", $javadoc_candidate, "");
+ 
++} elsif ($os eq "flatpak") {
++	my $javac_candidate;
++	my $javah_candidate;
++	my $jar_candidate;
++	my $javadoc_candidate;
++	my $vendor;
++	if ($jdk_home) {
++		$javac_candidate = "$jdk_home/bin/javac";
++		$javah_candidate = "$jdk_home/bin/javac";
++		$jar_candidate = "$jdk_home/bin/jar";
++		$javadoc_candidate = "$jdk_home/bin/javadoc";
++		$vendor = "Specified";
++	} else {
++		$javac_candidate = "/app/jdk/bin/javac";
++		$javah_candidate = "/app/jdk/bin/javac";
++		$jar_candidate = "/app/jdk/bin/jar";
++		$javadoc_candidate = "/app/jdk/bin/javadoc";
++		$vendor = "System Default";
++	}
++	check_compiler($javac, "$vendor javac", $javac_candidate, "-g -source 1.6 -target 1.6");
++
++	check_jni_header_generator($javah, "$vendor javah", $javah_candidate, "");
++	check_jar($jar, "$vendor jar", $jar_candidate, "");
++	check_javadoc($javadoc, "$vendor javadoc", $javadoc_candidate, "");
++
+ } else {
+ 	bail "failed!", "This OS not configured with a workable Java compiler checks!\nTHIS IS AN INTERNAL ERROR, PLEASE FILE A BUG.";
+ }
+@@ -1934,6 +1998,18 @@ if ($os eq "gentoo") {
+ 	}
+ 	check_runtime($cacao, "CACAO VM", $cacao_candidate, "");
+ 
++} elsif ($os eq "flatpak") {
++	my $java_candidate;
++	my $vendor;
++	if ($jdk_home) {
++		$java_candidate = "$jdk_home/bin/java";
++		$vendor = "Specified";
++	} else {
++		$java_candidate = "/app/jdk/bin/java";
++		$vendor = "System Default";
++	}
++	check_runtime($java, "$vendor java VM", $java_candidate, "-client -ea");
++
+ } else {
+ 	bail "failed!", "This OS not configured with appropriate Java VM checks!\nTHIS IS AN INTERNAL ERROR, PLEASE FILE A BUG.";
+ }

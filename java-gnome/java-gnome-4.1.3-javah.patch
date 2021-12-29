@@ -1,0 +1,45 @@
+--- java-gnome-4.1.3-orig/configure	2020-07-29 13:56:52.271552786 +0100
++++ java-gnome-4.1.3/configure	2020-07-29 14:05:53.811269908 +0100
+@@ -1258,13 +1258,13 @@
+ 	my $vendor;
+ 	if ($jdk_home) {
+ 		$javac_candidate = "$jdk_home/bin/javac";
+-		$javah_candidate = "$jdk_home/bin/javah";
++		$javah_candidate = "$jdk_home/bin/javac";
+ 		$jar_candidate = "$jdk_home/bin/jar";
+ 		$javadoc_candidate = "$jdk_home/bin/javadoc";
+ 		$vendor = "Specified";
+ 	} else {
+ 		$javac_candidate = "/usr/bin/javac";
+-		$javah_candidate = "/usr/bin/javah";
++		$javah_candidate = "/usr/bin/javac";
+ 		$jar_candidate = "/usr/bin/jar";
+ 		$javadoc_candidate = "/usr/bin/javadoc";
+ 		$vendor = "System Default";
+@@ -1283,7 +1283,7 @@
+ 	# check for kaffe's compiler
+ 	check_compiler($kaffec, "Kaffe javac", which("kaffec"), "");
+ 
+-	check_jni_header_generator($javah, "$vendor javah", $javah_candidate, "-jni");
++	check_jni_header_generator($javah, "$vendor javah", $javah_candidate, "");
+ 	check_jar($jar, "$vendor jar", $jar_candidate, "");
+ 	check_javadoc($javadoc, "$vendor javadoc", $javadoc_candidate, "");
+ 
+--- java-gnome-4.1.3-orig/build/faster	2020-07-29 13:56:39.962536485 +0100
++++ java-gnome-4.1.3/build/faster	2020-07-29 16:16:38.999604967 +0100
+@@ -353,6 +353,7 @@
+ 	if sourcepath:
+ 		cmd += " -sourcepath " + sourcepath
+ 	cmd += " -encoding UTF-8"
++	cmd += " -h tmp/include/"
+ 	cmd += " " + " ".join(sources)
+ 
+ 	blurb = "\n\t".join(sources)
+@@ -612,7 +613,6 @@
+ 
+ 	makeJarFile()
+ 
+-	generateHeaderFiles()
+ 	compileBindingsObjects()
+ 	linkSharedLibrary()
+ 

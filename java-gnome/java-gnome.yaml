@@ -1,0 +1,83 @@
+name: java-gnome
+sources:
+  - type: archive
+    url: https://download.gnome.org/sources/java-gnome/4.1/java-gnome-4.1.3.tar.xz
+    sha256: 060b2b249bad918b91a55a82b8a2ed085bec5734defaf31e6c8c5ad006532373
+  - type: patch
+    path: java-gnome-configure.patch
+  - type: patch
+    path: java-gnome-doclint.patch
+  - type: patch
+    path: java-gnome-4.1.3-javaargs.patch
+  - type: patch
+    path: java-gnome-4.1.3-javah.patch
+  - type: patch
+    path: java-gnome-4.1.3-py3.patch
+  - type: patch
+    path: java-gnome-without-junit.patch
+buildsystem: simple
+build-commands:
+  - find . -name '*.jar' -delete
+  - find . -name '*.class' -delete
+  - mkdir -p tmp/include
+  - >-
+      for c in atk_AtkRegistry atk_AtkUtil glib_GBoxed gdk_GdkWindowAttr gdk_GdkPixbufSimpleAnimIter \
+          gtk_GtkPlug gtk_GtkFilePath sourceview_GtkSourceViewSearchFlags pango_PangoAnalysis \
+          pango_PangoEngine pango_PangoEngineShape pango_PangoEngineLang pango_PangoGlyphGeometry \
+          pango_PangoGlyphInfo pango_PangoCairoFcFont pango_PangoFcFont ; do
+              > tmp/include/org_gnome_${c}.h ; done
+  - ./configure --prefix=$FLATPAK_DEST compiler=javac jdk=/usr/lib/sdk/openjdk11/jvm/openjdk-11
+  - make build-java
+  - PATH=/usr/lib/sdk/openjdk11/jvm/openjdk-11/bin:$PATH make install
+modules:
+  # org.gnome.Sdk has only gtksourceview-4
+  - name: gtksourceview3
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/gtksourceview/3.24/gtksourceview-3.24.11.tar.xz
+        sha256: 691b074a37b2a307f7f48edc5b8c7afa7301709be56378ccf9cc9735909077fd
+    config-opts:
+      - --disable-static
+      - --disable-introspection
+    cleanup:
+      - /include
+      - "*.la"
+      - /lib/girepository-1.0
+      - /lib/pkgconfig
+      - /share/gir-1.0
+      - /share/gtk-doc
+  # org.gnome.Sdk has only enchant-2
+  - name: enchant
+    sources:
+      - type: archive
+        url: https://github.com/AbiWord/enchant/releases/download/enchant-1-6-1/enchant-1.6.1.tar.gz
+        sha256: bef0d9c0fef2e4e8746956b68e4d6c6641f6b85bd2908d91731efb68eba9e3f5
+    config-opts:
+      - --disable-static
+    cleanup:
+      - /bin
+      - /include
+      - "*.la"
+      - /lib/pkgconfig
+      - /share/man/man1
+  - name: libnotify
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/libnotify/0.7/libnotify-0.7.9.tar.xz
+        sha256: 66c0517ed16df7af258e83208faaf5069727dfd66995c4bbc51c16954d674761
+    buildsystem: meson
+    config-opts:
+      - -Dintrospection=disabled
+      - -Dman=false
+      - -Ddockbook_docs=false
+      - -Dgtk_doc=false
+      - -Dtests=false
+    cleanup:
+      - /bin
+      - /include
+      - "*.la"
+      - /lib/girepository-1.0
+      - /lib/pkgconfig
+      - /share/gir-1.0
+      - /share/gtk-doc
+
