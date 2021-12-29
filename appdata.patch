@@ -1,0 +1,12 @@
+--- a/gonvert.appdata.xml	2021-12-28 18:19:36.845932236 -0500
++++ b/gonvert.appdata.xml	2021-12-28 18:22:34.488396472 -0500
+@@ -21,4 +21,8 @@
+  <url type="homepage">http://unihedron.com/projects/gonvert/</url>
+  <updatecontact>anthony@unihedron.com</updatecontact>
+  <project_group>GNOME</project_group>
++ <content_rating type="oars-1.0" />
++ <releases>
++  <release version="0.2.39" date="2016-08-29" />
++ </releases>
+ </application>
+\ No newline at end of file

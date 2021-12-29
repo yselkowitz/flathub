@@ -1,0 +1,31 @@
+id: com.unihedron.gonvert
+runtime: org.freedesktop.Platform
+runtime-version: '21.08'
+sdk: org.freedesktop.Sdk
+command: gonvert
+rename-appdata-file: gonvert.appdata.xml
+rename-desktop-file: gonvert.desktop
+rename-icon: gonvert
+finish-args:
+  - --share=ipc
+  - --socket=x11
+  - --filesystem=~/.gonvert:create
+modules:
+  - name: gonvert
+    buildsystem: simple
+    sources:
+      - type: archive
+        url: http://unihedron.com/projects/gonvert/downloads/gonvert-0.2.39.tar.gz
+        sha256: 013b5b8be7d4af05667bc3689bda021e843e5bb8362d72727076ab77df375de1
+      - type: patch
+        path: appdata.patch
+    build-commands:
+      - sed -i -e "s|/usr/bin/python|$FLATPAK_DEST/bin/python2|" gonvert
+      - make prefix=$FLATPAK_DEST install
+      - install -D -m0644 $FLATPAK_DEST/share/pixmaps/gonvert.png $FLATPAK_DEST/share/icons/hicolor/48x48/apps/gonvert.png
+    post-install:
+      - desktop-file-install --delete-original --set-icon gonvert --remove-category Application --dir $FLATPAK_DEST/share/applications $FLATPAK_DEST/share/gnome/apps/Utilities/gonvert.desktop
+    modules:
+      - shared-modules/python2.7/python-2.7.json
+      - shared-modules/gtk2/gtk2.json
+      - shared-modules/pygtk/pygtk.json
