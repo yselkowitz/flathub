@@ -26,6 +26,8 @@ modules:
       - type: patch
         path: 0054-Fix-a-GError-uninitialized-and-workaround-for-librsv.patch
       - type: patch
+        path: 0071-Changed-hint-effect-a-bit-less-evident.patch
+      - type: patch
         path: 1001-xdg-config.patch
       - type: patch
         path: 1002-SDL2_mixer.patch
