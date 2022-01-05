@@ -1,0 +1,38 @@
+---
+id: net.launchpad.indicator-keylock
+runtime: org.gnome.Platform
+runtime-version: '41'
+sdk: org.gnome.Sdk
+command: indicator-keylock
+rename-appdata-file: indicator-keylock.appdata.xml
+rename-desktop-file: indicator-keylock.desktop
+rename-icon: caps-lock-on
+copy-icon: true
+finish-args:
+  - --share=ipc
+  - --socket=x11
+  - --own-name=org.desktop.indicator-keylock
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.kde.StatusNotifierWatcher
+modules:
+  - name: indicator-keylock
+    sources:
+      - type: archive
+        url: http://archive.ubuntu.com/ubuntu/pool/universe/i/indicator-keylock/indicator-keylock_3.1.0.tar.xz
+        sha256: daa7e227da5ab1c7deaa2c5d62fe1573356a56c3126a455156eee3e3f3f03232
+      - type: patch
+        path: indicator-keylock-3.1.0-icons.patch
+      - type: patch
+        path: indicator-keylock-3.1.0-ldflags.patch
+      - type: patch
+        path: indicator-keylock-3.1.0-gcc10.patch
+#      - type: file
+#        path: indicator-keylock.appdata.xml
+    cleanup:
+    - /etc/xdg/autostart
+    modules:
+      # includes intltool from shared-modules
+      - libayatana-appindicator/libayatana-appindicator-gtk3-0.5.json
+      - libunique/libunique3.json
+...
+

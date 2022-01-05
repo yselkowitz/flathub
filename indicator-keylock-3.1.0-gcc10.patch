@@ -1,0 +1,17 @@
+diff -up indicator-keylock-3.1.0/src/lockstates.h.gcc10 indicator-keylock-3.1.0/src/lockstates.h
+--- indicator-keylock-3.1.0/src/lockstates.h.gcc10	2020-07-21 10:20:18.489121473 -0400
++++ indicator-keylock-3.1.0/src/lockstates.h	2020-07-21 10:22:00.470093104 -0400
+@@ -2,11 +2,11 @@
+ #define _LOCKSTATES_H
+ #include <glib.h>
+ 
+-enum {
++enum LockKey {
+ 	INDICATOR_KEYLOCK_CAPS  = 0,
+ 	INDICATOR_KEYLOCK_NUM = 1,
+ 	INDICATOR_KEYLOCK_SCROLL = 2
+-} LockKey;
++};
+ 
+ gboolean *get_led_states();
+ gboolean init_xkb_extension(GCallback show_func);

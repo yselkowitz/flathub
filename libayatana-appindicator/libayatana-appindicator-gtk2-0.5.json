@@ -1,0 +1,121 @@
+{
+  "name": "libayatana-appindicator",
+  "build-options": {
+    "cflags": "-Wno-error",
+    "make-args": [ "-j1" ]
+  },
+  "config-opts": [
+    "--disable-static",
+    "--disable-gtk-doc",
+    "--disable-tests",
+    "--disable-mono-tests",
+    "--enable-introspection=no",
+    "--with-gtk=2"
+  ],
+  "cleanup": [
+    "/include",
+    "/lib/pkgconfig",
+    "/lib/*.la",
+    "/share/gtk-doc",
+    "/share/gir-1.0"
+  ],
+  "sources": [
+    {
+      "type": "git",
+      "url": "https://github.com/AyatanaIndicators/libayatana-appindicator.git",
+      "tag": "0.5.5",
+      "commit": "c43a76e643ab930725d20d306bc3ca5e7874eebe"
+    },
+    {
+      "type": "script",
+      "commands": ["autoreconf -sfi"],
+      "dest-filename": "autogen.sh"
+    }
+  ],
+  "post-install": [
+    "ln -s libayatana-appindicator $FLATPAK_DEST/include/libayatana-appindicator-0.1/libappindicator",
+    "ln -s ayatana-appindicator-0.1.pc $FLATPAK_DEST/lib/pkgconfig/appindicator-0.1.pc"
+  ],
+  "modules": [
+    "../shared-modules/intltool/intltool-0.51.json",
+    "../shared-modules/dbus-glib/dbus-glib.json",
+    {
+      "name": "libdbusmenu",
+      "build-options": {
+        "cflags": "-Wno-error",
+        "env": {
+          "HAVE_VALGRIND_FALSE": "#",
+          "HAVE_VALGRIND_TRUE": ""
+        }
+      },
+      "cleanup": [
+        "/include",
+        "/libexec",
+        "/lib/pkgconfig",
+        "/lib/*.la",
+        "/share/doc",
+        "/share/libdbusmenu",
+        "/share/gtk-doc",
+        "/share/gir-1.0"
+      ],
+      "config-opts": [
+        "--disable-static",
+        "--disable-gtk-doc",
+        "--enable-introspection=no",
+        "--disable-vala",
+        "--disable-dumper",
+        "--disable-tests",
+        "--with-gtk=2"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://launchpad.net/libdbusmenu/16.04/16.04.0/+download/libdbusmenu-16.04.0.tar.gz",
+          "sha256": "b9cc4a2acd74509435892823607d966d424bd9ad5d0b00938f27240a1bfa878a"
+        }
+      ]
+    },
+    {
+      "name": "libayatana-indicator",
+      "build-options": {
+        "cflags": "-Wno-error"
+      },
+      "cleanup": [
+        "/include",
+        "/libexec",
+        "/lib/pkgconfig",
+        "/lib/*.la",
+        "/share/libindicator",
+        "/share/gtk-doc",
+        "/share/gir-1.0",
+        "/share/libayatana-indicator/80indicator-debugging"
+      ],
+      "config-opts": [
+        "--disable-ido",
+        "--disable-static",
+        "--disable-tests",
+        "--with-gtk=2"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/AyatanaIndicators/libayatana-indicator.git",
+          "tag": "0.8.4",
+          "commit": "9a887fb72380993ee03ae99fde261c64e158562f"
+        },
+        {
+          "type": "script",
+          "commands": [
+            "sed -i -e 's/indicator-ng.c/\$(NULL)/' libayatana-indicator/Makefile.am",
+            "autoreconf -sfi"
+          ],
+          "dest-filename": "autogen.sh"
+        }
+      ],
+      "post-install": [
+        "ln -s libayatana-indicator $FLATPAK_DEST/include/libayatana-indicator-0.4/libindicator",
+        "ln -s ayatana-indicator-0.4.pc $FLATPAK_DEST/lib/pkgconfig/indicator-0.4.pc"
+      ]
+    }
+  ]
+}
