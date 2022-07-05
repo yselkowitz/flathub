@@ -23,8 +23,8 @@ modules:
     buildsystem: simple
     sources:
       - type: file
-        url: https://github.com/ringcentral/ringcentral-embeddable-electron-app/releases/download/v0.2.2/ringcentral-embeddable-voice-app_0.2.2_amd64.deb
-        sha256: 12c88b7afbbaad62494c62ce6b3c067b12b8dc1793a75e2b159e8a3614e799c6
+        url: https://github.com/ringcentral/ringcentral-embeddable-electron-app/releases/download/v0.2.3/ringcentral-embeddable-voice-app_0.2.3_amd64.deb
+        sha256: c3e8287bc2af6e0b6705574d68cd1451a7f4f1f4700e39aae13482f5aa7c7c92
         x-checker-data:
           type: json
           url: https://api.github.com/repos/ringcentral/ringcentral-embeddable-electron-app/releases/latest
