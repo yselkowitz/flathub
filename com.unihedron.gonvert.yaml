@@ -1,6 +1,6 @@
 id: com.unihedron.gonvert
 runtime: org.freedesktop.Platform
-runtime-version: '21.08'
+runtime-version: '22.08'
 sdk: org.freedesktop.Sdk
 command: gonvert
 rename-appdata-file: gonvert.appdata.xml
