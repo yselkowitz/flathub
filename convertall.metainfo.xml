@@ -1,4 +1,4 @@
- <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
   <id>com.bellz.ConvertAll</id>
   <metadata_license>CC0-1.0</metadata_license>
@@ -8,6 +8,7 @@
   <summary>A flexible unit converter</summary>
   <url type="homepage">https://convertall.bellz.org/</url>
   <url type="bugtracker">https://github.com/doug-101/ConvertAll/issues</url>
+  <content_rating type="oars-1.1" />
   <description>
     <p>With ConvertAll, you can combine the units any way you want. If you want to convert from inches 
        per decade, that's fine. Or from meter-pounds. Or from cubic nautical miles. The units don't have
