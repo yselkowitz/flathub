@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Free42
+GenericName=Free42 calculator simulator
+Exec=free42dec
+Icon=com.thomasokken.free42
+Terminal=false
+Type=Application
+Categories=Utility;Calculator;

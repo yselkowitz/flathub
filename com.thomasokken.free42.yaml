@@ -1,0 +1,49 @@
+id: com.thomasokken.free42
+runtime: org.freedesktop.Platform
+runtime-version: '22.08'
+sdk: org.freedesktop.Sdk
+command: free42dec
+finish-args:
+  - --filesystem=xdg-data/free42:create
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  - --filesystem=xdg-public-share
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --socket=pulseaudio
+modules:
+  - name: free42
+    buildsystem: simple
+    sources:
+      - type: archive
+        url: http://www.thomasokken.com/free42/upstream/free42-nologo-3.0.17.tgz
+        sha256: cb1b828feca85443050f435e4fe6cf7b9ebe269c299de6de02b6e662e22adc12
+      - type: shell
+        commands:
+          - sed -i -e 's/IvoryBlack/#231F20/' gtk/icon-128x128.xpm
+      - type: file
+        path: com.thomasokken.free42.desktop
+      - type: file
+        path: com.thomasokken.free42.metainfo.xml
+    build-commands:
+      - make BCD_MATH=1 AUDIO_ALSA=1 -C gtk
+      - convert gtk/icon-48x48.xpm gtk/icon-48x48.png
+      - convert gtk/icon-128x128.xpm gtk/icon-128x128.png
+      - install -D -m0755 gtk/free42dec $FLATPAK_DEST/bin/free42dec
+      - install -D -m0644 gtk/icon-48x48.png $FLATPAK_DEST/share/icons/hicolor/48x48/apps/com.thomasokken.free42.png
+      - install -D -m0644 gtk/icon-128x128.png $FLATPAK_DEST/share/icons/hicolor/128x128/apps/com.thomasokken.free42.png
+      - install -D -m0644 com.thomasokken.free42.desktop $FLATPAK_DEST/share/applications/com.thomasokken.free42.desktop
+      - install -D -m0644 com.thomasokken.free42.metainfo.xml $FLATPAK_DEST/share/metainfo/com.thomasokken.free42.metainfo.xml
+    modules:
+      - name: ImageMagick
+        buildsystem: autotools
+        config-opts:
+          - --disable-shared
+          - --disable-docs
+        sources:
+          - type: archive
+            url: https://github.com/ImageMagick/ImageMagick/archive/7.1.0-58/ImageMagick-7.1.0-58.tar.gz
+            sha256: 5767f49cf94bff82b558d79c8039f60c8ea4b51753c6e4b0f16a9442293cfa67
+        cleanup:
+          - "*"
