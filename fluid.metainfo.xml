@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>fluid.desktop</id>
+  <name>FLUID</name>
+  <summary>FLTK GUI Designer</summary>
+  <metadata_license>FSFAP</metadata_license>
+  <project_license>LGPL-2.0-or-later</project_license>
+  <description>
+    <p>
+       The Fast Light User Interface Designer, or FLUID, is a graphical editor
+       that is used to produce FLTK source code. FLUID edits and saves its state
+       in .fl files. These files are text, and you can (with care) edit them in
+       a text editor, perhaps to get some special effects.
+    </p>
+  </description>
+  <launchable type="desktop-id">fluid.desktop</launchable>
+  <provides>
+    <binary>fluid</binary>
+  </provides>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release date="2021-11-20" version="1.3.8"/>
+  </releases>
+  <screenshots>
+    <screenshot type="default">
+      <image type="source">https://www.fltk.org/images/fluid-flphoto.png</image>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://www.fltk.org/</url>
+  <url type="help">https://www.fltk.org/doc-1.3/fluid.html</url>
+</component>

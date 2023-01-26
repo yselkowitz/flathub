@@ -1,0 +1,33 @@
+id: org.fltk.fluid
+runtime: org.freedesktop.Platform
+runtime-version: '22.08'
+sdk: org.freedesktop.Sdk
+command: fluid
+rename-appdata-file: fluid.metainfo.xml
+rename-desktop-file: fluid.desktop
+rename-icon: fluid
+copy-icon: true
+finish-args:
+  - --filesystem=home
+  - --share=ipc
+  - --socket=x11
+modules:
+  - name: fltk
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DOPTION_BUILD_SHARED_LIBS=OFF
+    sources:
+      - type: archive
+        url: https://www.fltk.org/pub/fltk/1.3.8/fltk-1.3.8-source.tar.gz
+        sha256: f3c1102b07eb0e7a50538f9fc9037c18387165bc70d4b626e94ab725b9d4d1bf
+      - type: file
+        path: fluid.metainfo.xml
+    post-install:
+      - install -D -m0644 fluid.metainfo.xml $FLATPAK_DEST/share/metainfo/fluid.metainfo.xml
+      - mv $FLATPAK_DEST/share/mime/packages/{,org.fltk.}fluid.xml
+    cleanup:
+      - /bin/fltk-config
+      - /include
+      - /lib/lib*.a
+      - /share/fltk/*.cmake
+      - /share/man
