@@ -8,7 +8,7 @@ rename-desktop-file: qnetwalk.desktop
 rename-icon: qnetwalk
 finish-args:
   - --share=ipc
-  - --socket=x11
+  - --socket=fallback-x11
   - --socket=wayland
   - --socket=pulseaudio
   - --device=dri
@@ -20,3 +20,20 @@ modules:
         url: https://github.com/AMDmi3/qnetwalk.git
         tag: '1.7.0'
         commit: f800f9855f1c015434b70d99b9129927d6ea1c28
+    post-install:
+      - mkdir -p $FLATPAK_DEST/share/icons/hicolor/64x64/apps
+      - convert -resize 64x64 pics/qnetwalk.png $FLATPAK_DEST/share/icons/hicolor/64x64/apps/qnetwalk.png
+    modules:
+      - name: ImageMagick
+        buildsystem: autotools
+        sources:
+          - type: archive
+            url: https://github.com/ImageMagick/ImageMagick/archive/7.1.0-58/ImageMagick-7.1.0-58.tar.gz
+            sha256: 5767f49cf94bff82b558d79c8039f60c8ea4b51753c6e4b0f16a9442293cfa67
+        config-opts:
+          - --disable-shared
+          - --disable-docs
+          - --without-magick-plus-plus
+          - --without-modules
+        cleanup:
+          - "*"
