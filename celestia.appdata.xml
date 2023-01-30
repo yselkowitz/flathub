@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2014 Richard Hughes <richard@hughsie.com> -->
+<component type="desktop-application">
+  <id>celestia.desktop</id>
+  <name>Celestia</name>
+  <summary>OpenGL real-time visual space simulation</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0-or-later</project_license>
+  <description>
+    <p>
+      Celestia provides photo-realistic, real-time, three-dimensional viewing of
+      the Solar System, the galaxy and the universe.
+    </p>
+    <p>
+      It is an easy to use, freely-distributed, multi-platform, open source,
+      software package which has become a valuable tool for astronomy education.
+      Used in homes, schools, museums and planetariums around the world, it also
+      is used as a visualization tool by space mission designers.
+    </p>
+  </description>
+  <launchable type="desktop-id">celestia.desktop</launchable>
+  <provides>
+    <binary>celestia</binary>
+  </provides>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release date="2020-11-19" version="1.6.2"/>
+  </releases>
+  <screenshots>
+    <screenshot type="default">https://raw.githubusercontent.com/hughsie/fedora-appstream/master/screenshots-extra/celestia/a.png</screenshot>
+    <screenshot>https://raw.githubusercontent.com/hughsie/fedora-appstream/master/screenshots-extra/celestia/b.png</screenshot>
+    <screenshot>https://raw.githubusercontent.com/hughsie/fedora-appstream/master/screenshots-extra/celestia/c.png</screenshot>
+  </screenshots>
+  <updatecontact>claurel@gmail.com</updatecontact>
+  <url type="homepage">https://celestia.space/</url>
+</component>
+

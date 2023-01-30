@@ -1,0 +1,38 @@
+name: gtkglext
+buildsystem: autotools
+sources:
+  - type: archive
+    url: https://download.gnome.org/sources/gtkglext/1.2/gtkglext-1.2.0.tar.bz2
+    sha256: 16bd736074f6b14180f206b7e91263fc721b49912ea3258ab5f094cfa5497f51
+  - type: patch
+    path: 0001-gtkglext-1.2.0-bz677457.patch
+  - type: patch
+    path: 0002-GCC-8-fixes.patch
+  - type: patch
+    path: gtkglext-1.2.0-no-pangox.patch
+config-opts:
+  - --disable-gtk-doc
+  - --disable-static
+cleanup:
+  - /include
+  - /lib/*.la
+  - /lib/gtkglext-1.0/include
+  - /lib/pkgconfig
+  - /share/aclocal
+  - /share/gtk-doc
+modules:
+- ../shared-modules/glu/glu-9.json
+- name: libXmu
+  buildsystem: autotools
+  sources:
+    - type: archive
+      url: https://www.x.org/pub/individual/lib/libXmu-1.1.4.tar.xz
+      sha512: 3cf90cb3ff380aafefbb39297bdd95b9e1e6d6618cecb53ff09faf38f9b9c54599d28367f07a9ec77a20214c6c3e661b8d0a12b38082556790a79a59942039c1
+  config-opts:
+    - --disable-static
+  cleanup:
+    - /include
+    - /lib/*.la
+    - /lib/pkgconfig
+    - /share/doc
+    - /share/man
