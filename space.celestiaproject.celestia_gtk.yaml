@@ -1,0 +1,45 @@
+id: space.celestiaproject.celestia_gtk
+runtime: org.freedesktop.Platform
+runtime-version: '23.08'
+sdk: org.freedesktop.Sdk
+command: celestia-gtk
+rename-icon: celestia
+finish-args:
+  - --device=dri
+  - --filesystem=home
+  - --share=ipc
+  - --share=network
+  - --socket=x11
+modules:
+  - name: celestia
+    buildsystem: cmake-ninja
+    sources:
+      - type: git
+        url: https://github.com/CelestiaProject/Celestia/
+        branch: master
+        commit: 2f8ad92659473f3bbcef388bc3e02e852722bb79
+    config-opts:
+      - -DENABLE_GTK=ON
+      - -DENABLE_QT5=OFF
+      - -DENABLE_QT6=OFF
+      - -DENABLE_SDL=OFF
+      - -DENABLE_FFMPEG=ON
+      - -DENABLE_MINIAUDIO=ON
+    post-install:
+      - install -p -m 644 -D src/celestia/gtk/data/celestia.png $FLATPAK_DEST/share/icons/hicolor/48x48/apps/celestia.png
+      - install -p -m 644 -D src/celestia/gtk/data/celestia-logo.png $FLATPAK_DEST/share/icons/hicolor/128x128/apps/celestia.png
+      - install -p -m 644 -D src/celestia/gtk/data/celestia.svg $FLATPAK_DEST/share/icons/hicolor/scalable/apps/celestia.svg
+    cleanup:
+      - /share/pixmaps/celestia.png
+    modules:
+      - shared-modules/gtk2/gtk2.json
+      - shared-modules/luajit/luajit.json
+      - gtkglext/gtkglext.yaml
+      - eigen/eigen.json
+  - name: celestia-data
+    buildsystem: cmake-ninja
+    sources:
+      - type: git
+        url: https://github.com/CelestiaProject/CelestiaContent/
+        branch: master
+        commit: caa5c8b3780c229edad369d4768856fe27e213aa
