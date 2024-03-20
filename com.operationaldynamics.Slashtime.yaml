@@ -1,7 +1,7 @@
 ---
 id: com.operationaldynamics.Slashtime
 runtime: org.freedesktop.Platform
-runtime-version: '21.08'
+runtime-version: '23.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.openjdk11
@@ -27,13 +27,9 @@ modules:
     sources:
       - type: git
         url: https://github.com/istathar/slashtime.git
-        commit: 7326857683542102d383f969c002286845b1429f
+        commit: aa4e96d36ec6e4cb56e3567c560c1c209f4fd492
       - type: patch
         path: 0001-freedesktop-configure.patch
-      - type: patch
-        path: 0002-xdg-config-tzlist.patch
-      - type: patch
-        path: 0003-about-github.patch
       - type: patch
         path: 0004-install-separate-locales.patch
       - type: file

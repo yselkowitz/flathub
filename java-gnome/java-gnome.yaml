@@ -69,7 +69,7 @@ modules:
     config-opts:
       - -Dintrospection=disabled
       - -Dman=false
-      - -Ddockbook_docs=false
+      - -Ddocbook_docs=disabled
       - -Dgtk_doc=false
       - -Dtests=false
     cleanup:
