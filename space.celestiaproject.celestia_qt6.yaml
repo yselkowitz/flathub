@@ -1,0 +1,43 @@
+id: space.celestiaproject.celestia_qt6
+runtime: org.kde.Platform
+runtime-version: '6.6'
+sdk: org.kde.Sdk
+command: celestia-qt6
+rename-icon: celestia
+finish-args:
+  - --device=dri
+  - --filesystem=home
+  - --share=ipc
+  - --share=network
+  - --socket=fallback-x11
+  - --socket=wayland
+modules:
+  - name: celestia
+    buildsystem: cmake-ninja
+    sources:
+      - type: git
+        url: https://github.com/CelestiaProject/Celestia/
+        branch: master
+        commit: 2f8ad92659473f3bbcef388bc3e02e852722bb79
+    config-opts:
+      - -DENABLE_GTK=OFF
+      - -DENABLE_QT5=OFF
+      - -DENABLE_QT6=ON
+      - -DENABLE_SDL=OFF
+      - -DENABLE_FFMPEG=ON
+      - -DENABLE_MINIAUDIO=ON
+      - -DUSE_WAYLAND=ON
+    post-install:
+      - install -p -m 644 -D src/celestia/qt/data/celestia.png $FLATPAK_DEST/share/icons/hicolor/128x128/apps/celestia.png
+    cleanup:
+      - /share/pixmaps/celestia.png
+    modules:
+      - shared-modules/luajit/luajit.json
+      - eigen/eigen.json
+  - name: celestia-data
+    buildsystem: cmake-ninja
+    sources:
+      - type: git
+        url: https://github.com/CelestiaProject/CelestiaContent/
+        branch: master
+        commit: caa5c8b3780c229edad369d4768856fe27e213aa
