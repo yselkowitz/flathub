@@ -1,6 +1,6 @@
 id: com.thomasokken.free42
 runtime: org.freedesktop.Platform
-runtime-version: '22.08'
+runtime-version: '23.08'
 sdk: org.freedesktop.Sdk
 command: free42dec
 finish-args:
@@ -17,8 +17,8 @@ modules:
     buildsystem: simple
     sources:
       - type: archive
-        url: http://www.thomasokken.com/free42/upstream/free42-nologo-3.0.17.tgz
-        sha256: cb1b828feca85443050f435e4fe6cf7b9ebe269c299de6de02b6e662e22adc12
+        url: http://www.thomasokken.com/free42/upstream/free42-nologo-3.1.5.tgz
+        sha256: dc327ad45f28374a3db99f7d34a2c9c9a0760265f43aaf223438bc1e7c0a78c0
       - type: shell
         commands:
           - sed -i -e 's/IvoryBlack/#231F20/' gtk/icon-128x128.xpm
@@ -43,7 +43,7 @@ modules:
           - --disable-docs
         sources:
           - type: archive
-            url: https://github.com/ImageMagick/ImageMagick/archive/7.1.0-58/ImageMagick-7.1.0-58.tar.gz
-            sha256: 5767f49cf94bff82b558d79c8039f60c8ea4b51753c6e4b0f16a9442293cfa67
+            url: https://github.com/ImageMagick/ImageMagick/archive/7.1.1-29/ImageMagick-7.1.1-29.tar.gz
+            sha256: 27bd25f945efdd7e38f6f9845a7c0a391fdb732f652dda140b743769c5f106e8
         cleanup:
           - "*"

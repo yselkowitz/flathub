@@ -18,7 +18,7 @@
     <content_rating type="oars-1.1"/>
     <developer_name>Thomas Okken</developer_name>
     <releases>
-        <release date="2022-12-14" version="3.0.17" />
+        <release date="2024-03-07" version="3.1.5" />
     </releases>
     <url type="homepage">https://www.thomasokken.com/free42/</url>
 </component>
