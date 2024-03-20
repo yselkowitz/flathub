@@ -1,0 +1,11 @@
+{
+    "name": "libgnome-games-support",
+    "buildsystem": "meson",
+    "sources": [
+        {
+            "type": "git",
+            "url": "https://gitlab.gnome.org/GNOME/libgnome-games-support.git",
+            "tag": "1.8.2"
+        }
+    ]
+}

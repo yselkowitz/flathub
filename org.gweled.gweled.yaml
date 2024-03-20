@@ -1,0 +1,28 @@
+---
+id: org.gweled.gweled
+runtime: org.gnome.Platform
+runtime-version: '45'
+sdk: org.gnome.Sdk
+command: gweled
+rename-desktop-file: gweled.desktop
+rename-icon: gweled
+copy-icon: true
+finish-args:
+  - --device=dri
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --socket=pulseaudio
+modules:
+  - name: gweled
+    buildsystem: meson
+    sources:
+      - type: archive
+        url: http://launchpad.net/gweled/trunk/1.0/+download/gweled-1.0-alpha.tar.xz
+        sha256: d0b52391d095ebcaff4edf9ccf4d4cda5b2885fb36d4f02b100d04489ac17355
+    modules:
+      - shared-modules/clutter/clutter.json
+      - shared-modules/libcanberra/libcanberra.json
+      - gsound.json
+      - libgnome-games-support.json
+...
