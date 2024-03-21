@@ -1,6 +1,6 @@
 id: com.bellz.ConvertAll
 runtime: org.kde.Platform
-runtime-version: 5.15-22.08
+runtime-version: 5.15-23.08
 sdk: org.kde.Sdk
 command: convertall
 rename-appdata-file: convertall.metainfo.xml
@@ -17,7 +17,7 @@ modules:
     buildsystem: simple
     sources:
       - type: archive
-        url: https://github.com/doug-101/ConvertAll/releases/download/v0.8.0/convertall-0.8.0.tar.gz
+        url: https://github.com/doug-101/ConvertAll-py/releases/download/v0.8.0/convertall-0.8.0.tar.gz
         sha256: 624c8a792b0bc7ff3776499c2c743b32273569efd0567615e570a7e739e8d521
       - type: file
         path: convertall.metainfo.xml
